@@ -40,6 +40,10 @@ def main():
     if written != data:
         print("error: read-back mismatch", file=sys.stderr)
         return 1
+    # Gate rule: entry must be 1-8 characters, no newline. Verify the
+    # artifact itself: exactly 4 bytes that decode to exactly 1 char.
+    assert len(written) == 4, "entry must be exactly 4 bytes"
+    assert len(written.decode("utf-8")) == 1, "entry must decode to 1 character"
 
     print("wrote %d byte(s) to %s" % (len(written), path))
     return 0
